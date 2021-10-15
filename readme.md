@@ -42,3 +42,28 @@ cp .env.dist .env
 nano .env #And edit all the variables
 docker-compose up -d
 ```
+
+### Pro Tip
+You can add the docker compose file to a larger docker-compose file, and as they all would be in the same network you can use `database` as host.
+
+```yaml
+version: '2'
+
+services:
+  rclone:
+    build:
+      context: .
+    environment:
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - REMOTE_SERVICE=${REMOTE_SERVICE}
+      - REMOTE_FOLDER=${REMOTE_FOLDER}
+      - CRON_EXPRESION=${CRON_EXPRESION}
+      - REMOTE_KEEP_TIME=${REMOTE_KEEP_TIME:-5d}
+    volumes:
+      - ./:/root/.config/rclone
+    restart: unless-stopped
+```
