@@ -1,6 +1,35 @@
 ## Rclone Database Backup
 Simple docker image to `cron` a database backup to a popular cloud service.
 
+### Uploaded to public registry!
+Using `ghcr.io` the image is now public and on github repository:
+
+To get the config for rclone:
+```shell
+docker run -it --rm -v `pwd`:/root/.config/rclone ghcr.io/hkfuertes/rclone-db-backup /bin/bash -c "rclone config"
+```
+
+```yaml
+version: '2'
+
+services:
+  rclone:
+    image: ghcr.io/hkfuertes/rclone-db-backup
+    environment:
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - REMOTE_SERVICE=${REMOTE_SERVICE}
+      - REMOTE_FOLDER=${REMOTE_FOLDER}
+      - CRON_EXPRESION=${CRON_EXPRESION}
+      - REMOTE_KEEP_TIME=${REMOTE_KEEP_TIME:-5d}
+    volumes:
+      - ./:/root/.config/rclone
+    restart: unless-stopped
+```
+
 ### Configure
 First you need to setup your remotes `rclone config`, to do so run the following commands and follow the steps:
 
