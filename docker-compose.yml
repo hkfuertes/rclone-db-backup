@@ -18,3 +18,7 @@ services:
     volumes:
       - ./:/root/.config/rclone
     restart: unless-stopped
+networks:
+  default:
+    external: true
+    name: ${NETWORK_NAME:-csbookn}
