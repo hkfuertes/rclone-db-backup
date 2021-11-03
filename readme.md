@@ -1,35 +1,6 @@
 ## Rclone Database Backup
 Simple docker image to `cron` a database backup to a popular cloud service.
 
-### Uploaded to public registry!
-Using `ghcr.io` the image is now public and on github repository:
-
-To get the config for rclone:
-```shell
-docker run -it --rm -v `pwd`:/root/.config/rclone ghcr.io/hkfuertes/rclone-db-backup /bin/bash -c "rclone config"
-```
-
-```yaml
-version: '2'
-
-services:
-  rclone:
-    image: ghcr.io/hkfuertes/rclone-db-backup
-    environment:
-      - DATABASE_USER=${DATABASE_USER}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - DATABASE_NAME=${DATABASE_NAME}
-      - DATABASE_HOST=${DATABASE_HOST}
-      - DATABASE_PORT=${DATABASE_PORT}
-      - REMOTE_SERVICE=${REMOTE_SERVICE}
-      - REMOTE_FOLDER=${REMOTE_FOLDER}
-      - CRON_EXPRESION=${CRON_EXPRESION}
-      - REMOTE_KEEP_TIME=${REMOTE_KEEP_TIME:-5d}
-    volumes:
-      - ./:/root/.config/rclone
-    restart: unless-stopped
-```
-
 ### Configure
 First you need to setup your remotes `rclone config`, to do so run the following commands and follow the steps:
 
@@ -63,6 +34,7 @@ You can run it via docker-compose, but there are several environment variables t
 | REMOTE_FOLDER | csbookdb/ | Folder inside the remote. |
 | CRON_EXPRESION | * * * * * | CRON expresion for the backup to happen. |
 | REMOTE_KEEP_TIME | 5d | Retention days to keep backups. |
+| NETWORK_NAME | csbookn | Name of an external network, to integrate with larger projects. |
 
 To run it:
 
@@ -72,14 +44,13 @@ nano .env #And edit all the variables
 docker-compose up -d
 ```
 
-### Pro Tip
-You can add the docker compose file to a larger docker-compose file, and as they all would be in the same network you can use `database` as host.
-
+The docker-compose file:
 ```yaml
 version: '2'
 
 services:
   rclone:
+#    container_name: project-rclone
     build:
       context: .
     environment:
@@ -95,4 +66,9 @@ services:
     volumes:
       - ./:/root/.config/rclone
     restart: unless-stopped
+networks:
+  default:
+    external: true
+    name: ${NETWORK_NAME:-csbookn}
 ```
+> An external network can be added in order to not use public urls/ports.
