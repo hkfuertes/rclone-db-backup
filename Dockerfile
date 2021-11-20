@@ -7,7 +7,7 @@ RUN ln -fs /usr/share/zoneinfo/Europe/Madrid /etc/localtime
 RUN echo "Europe/Madrid" >  /etc/timezone
 
 # Installing rclone
-RUN apk add unzip curl bash
+RUN apk add unzip curl bash zip
 RUN curl https://rclone.org/install.sh | bash
 
 # Install mysql-client

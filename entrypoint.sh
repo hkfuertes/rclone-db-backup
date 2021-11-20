@@ -5,11 +5,12 @@ cat <<EOF >> /backup.sh
 #!/bin/bash
 echo "[\`date +"%d-%b-%Y %T"\`] Backing up ${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}..."
 /usr/bin/mysqldump --host ${DATABASE_HOST} --port ${DATABASE_PORT} -u ${DATABASE_USER} -p${DATABASE_PASSWORD} -y ${DATABASE_NAME} > /tmp/backup_${DATABASE_NAME}_latest.sql
-cp /tmp/backup_${DATABASE_NAME}_latest.sql /tmp/backup_${DATABASE_NAME}_\`date +"%Y%m%d"\`.sql
+zip /tmp/backup_${DATABASE_NAME}_latest.sql.zip /tmp/backup_${DATABASE_NAME}_latest.sql
+cp /tmp/backup_${DATABASE_NAME}_latest.sql.zip /tmp/backup_${DATABASE_NAME}_\`date +"%Y%m%d"\`.sql.zip
 echo "[\`date +"%d-%b-%Y %T"\`] Copying to ${REMOTE_SERVICE}:${REMOTE_FOLDER}..."
-/usr/bin/rclone copy /tmp/ ${REMOTE_SERVICE}:${REMOTE_FOLDER} --include "*.sql"
-rm -rf /tmp/*.sql
-/usr/bin/rclone delete ${REMOTE_SERVICE}:${REMOTE_FOLDER} --include "*.sql" --min-age ${REMOTE_KEEP_TIME} 
+/usr/bin/rclone copy /tmp/ ${REMOTE_SERVICE}:${REMOTE_FOLDER} --include "*.sql.zip"
+rm -rf /tmp/*.sql*
+/usr/bin/rclone delete ${REMOTE_SERVICE}:${REMOTE_FOLDER} --include "*.sql.zip" --min-age ${REMOTE_KEEP_TIME} 
 echo "[\`date +"%d-%b-%Y %T"\`] Backed and copied up!"
 EOF
 
