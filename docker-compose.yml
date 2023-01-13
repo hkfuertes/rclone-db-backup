@@ -1,8 +1,7 @@
-version: '2'
+version: '3.5'
 
 services:
   rclone:
-#    container_name: project-rclone
     build:
       context: .
     environment:
@@ -18,7 +17,4 @@ services:
     volumes:
       - ./:/root/.config/rclone
     restart: unless-stopped
-networks:
-  default:
-    external: true
-    name: ${NETWORK_NAME:-csbookn}
+
