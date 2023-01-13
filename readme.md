@@ -34,7 +34,6 @@ You can run it via docker-compose, but there are several environment variables t
 | REMOTE_FOLDER | csbookdb/ | Folder inside the remote. |
 | CRON_EXPRESION | * * * * * | CRON expresion for the backup to happen. |
 | REMOTE_KEEP_TIME | 5d | Retention days to keep backups. |
-| NETWORK_NAME | csbookn | Name of an external network, to integrate with larger projects. |
 
 To run it:
 
