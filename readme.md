@@ -19,6 +19,7 @@ vendor = nextcloud
 user = <some_user>
 pass = <some_password>
 ```
+> To just execute `docker-compose up` with the provided docker compose file, you need to copy that `rclone.conf` file to the root of this repo.
 
 ### Run
 You can run it via docker-compose, but there are several environment variables that need to be passed on:
