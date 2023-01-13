@@ -2,14 +2,14 @@
 Simple docker image to `cron` a database backup to a popular cloud service.
 
 ### Configure
-First you need to setup your remotes `rclone config`, to do so run the following commands and follow the steps:
+First you need to setup your remotes, to do so you need to install `rclone` and run `rclone config`
 
-```shell
-docker build -t rclone-backup .
-docker run -it --rm -v `pwd`:/root/.config/rclone rclone-backup /bin/bash -c "rclone config"
+```bash
+sudo -v ; curl https://rclone.org/install.sh | sudo bash
+rclone config
 ```
 
-This will produce a file called `rclone.conf` similar to this:
+This will produce a file called `~/.config/rclone/rclone.conf` similar to this:
 
 ```conf
 [nextcloud]
@@ -44,15 +44,18 @@ nano .env #And edit all the variables
 docker-compose up -d
 ```
 
-The docker-compose file:
+### Integration with existing project
+To integrate into an existing project you can just first build the project:
+```bash
+docker build -t rclone-db-backup .
+```
+...and add the following `docker-compose.override.yml` file:
 ```yaml
-version: '2'
+version: '3.5'
 
 services:
   rclone:
-#    container_name: project-rclone
-    build:
-      context: .
+    image: rclone-db-backup:latest # or the <tag> you specified on build...
     environment:
       - DATABASE_USER=${DATABASE_USER}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
@@ -64,11 +67,7 @@ services:
       - CRON_EXPRESION=${CRON_EXPRESION}
       - REMOTE_KEEP_TIME=${REMOTE_KEEP_TIME:-5d}
     volumes:
-      - ./:/root/.config/rclone
+      - /root/.config/rclone:/root/.config/rclone # path to the rcloned file
     restart: unless-stopped
-networks:
-  default:
-    external: true
-    name: ${NETWORK_NAME:-csbookn}
 ```
-> An external network can be added in order to not use public urls/ports.
+Provided that you added the required variables in the `.env` file, by running `docker-compose up` on your project, `docker-compose` will pick both `docker-compose.yml` and `docker-compose.override.yml` files and so, both project will be on the same network and no ports need to be exported.
