@@ -40,7 +40,7 @@ To run it:
 
 ```shell
 cp .env.dist .env
-nano .env #And edit all the variables
+nano .env # ... and edit all the variables
 docker-compose up -d
 ```
 
