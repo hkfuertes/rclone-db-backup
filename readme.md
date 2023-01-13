@@ -41,6 +41,7 @@ To run it:
 ```shell
 cp .env.dist .env
 nano .env # ... and edit all the variables
+cp ~/.config/rclone/rclone.conf .
 docker-compose up -d
 ```
 
