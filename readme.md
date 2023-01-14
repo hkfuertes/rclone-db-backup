@@ -71,4 +71,5 @@ services:
       - /root/.config/rclone:/root/.config/rclone # path to the rcloned file
     restart: unless-stopped
 ```
-Provided that you added the required variables in the `.env` file, by running `docker-compose up` on your project, `docker-compose` will pick both `docker-compose.yml` and `docker-compose.override.yml` files and so, both project will be on the same network and no ports need to be exported.
+
+> Provided that you added the required variables in the `.env` file, by running `docker-compose up` on your project, `docker-compose` will pick both `docker-compose.yml` and `docker-compose.override.yml` files and so, both project will be on the same network and no ports need to be exported.
