@@ -31,9 +31,9 @@ You can run it via docker-compose, but there are several environment variables t
 | DATABASE_PASSWORD | **** | Database user's password. |
 | DATABASE_HOST | localhost | Database url. |
 | DATABASE_PORT | 3306 | Database port. |
+| CRON_EXPRESION | * * * * * | CRON expresion for the backup to happen. |
 | REMOTE_SERVICE | nextcloud | Service to be used from the `rclone.conf` file. (ex. _[nextcloud]_) |
 | REMOTE_FOLDER | csbookdb/ | Folder inside the remote. |
-| CRON_EXPRESION | * * * * * | CRON expresion for the backup to happen. |
 | REMOTE_KEEP_TIME | 5d | Retention days to keep backups. |
 
 To run it:
