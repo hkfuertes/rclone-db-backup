@@ -1,3 +1,4 @@
 *.sql
 rclone.conf
 .env
+docker-compose.yml
