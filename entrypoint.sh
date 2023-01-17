@@ -20,7 +20,7 @@ EOF
 
 # Creating the CRON file.
 cat <<EOF > /var/spool/cron/crontabs/root
-\${CRON_EXPRESION} /bin/bash /backup.sh >> /var/log/cron.log 2>&1
+${CRON_EXPRESION} /bin/bash /backup.sh >> /var/log/cron.log 2>&1
 
 EOF
 
