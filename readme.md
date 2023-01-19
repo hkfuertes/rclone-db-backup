@@ -36,15 +36,6 @@ You can run it via docker-compose, but there are several environment variables t
 | REMOTE_FOLDER | csbookdb/ | Folder inside the remote. |
 | REMOTE_KEEP_TIME | 5d | Retention days to keep backups. |
 
-To run it:
-
-```shell
-cp .env.dist .env
-nano .env # ... and edit all the variables
-cp ~/.config/rclone/rclone.conf .
-docker-compose up -d
-```
-
 ### Integration with existing project
 To integrate into an existing project you can just first build the project:
 ```bash
